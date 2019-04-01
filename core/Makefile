@@ -340,7 +340,7 @@ endif
 	$(hide) TARGET_BUILD_TYPE="$(TARGET_BUILD_VARIANT)" \
 			TARGET_BUILD_FLAVOR="$(TARGET_BUILD_FLAVOR)" \
 			TARGET_DEVICE="$(TARGET_DEVICE)" \
-			GZOSP_DEVICE="$(TARGET_DEVICE)" \
+			ROCKOS_DEVICE="$(TARGET_DEVICE)" \
 			PRODUCT_NAME="$(TARGET_PRODUCT)" \
 			PRODUCT_BRAND="$(PRODUCT_BRAND)" \
 			PRODUCT_DEFAULT_LOCALE="$(call get-default-product-locale,$(PRODUCT_LOCALES))" \
@@ -3198,7 +3198,7 @@ endif
 ifeq ($(WITH_GMS),true)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
 else
-ifneq ($(GZOSP_BUILD),)
+ifneq ($(ROCKOS_BUILD),)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := true
 else
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
@@ -3218,25 +3218,29 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
 	   $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
 
-GZOSP_TARGET_PACKAGE := $(PRODUCT_OUT)/$(GZOSP_VERSION).zip
+ROCKOS_TARGET_PACKAGE := $(PRODUCT_OUT)/$(ROCKOS_VERSION).zip
 
-.PHONY: otapackage gzosp
+.PHONY: otapackage rockos
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
-gzosp: otapackage
-	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(GZOSP_TARGET_PACKAGE)
-	$(hide) $(MD5SUM) $(GZOSP_TARGET_PACKAGE) > $(GZOSP_TARGET_PACKAGE).md5sum
-	@echo -e ${CL_RED}""${CL_RED}
-	@echo -e ${CL_RED}"    ▄██████▄   ▄███████▄   ▄██████▄     ▄████████    ▄███████▄ "${CL_RED}
-	@echo -e ${CL_RED}"   ███    ███ ██▀     ▄██ ███    ███   ███    ███   ███    ███ "${CL_RED}
-	@echo -e ${CL_RED}"   ███    █▀        ▄███▀ ███    ███   ███    █▀    ███    ███ "${CL_RED}
-	@echo -e ${CL_RED}"  ▄███         ▀█▀▄███▀▄▄ ███    ███   ███          ███    ███ "${CL_RED}
-	@echo -e ${CL_RED}" ▀▀███ ████▄    ▄███▀   ▀ ███    ███ ▀███████████ ▀█████████▀ "${CL_RED}
-	@echo -e ${CL_RED}"   ███    ███ ▄███▀       ███    ███          ███   ███ "${CL_RED}
-	@echo -e ${CL_RED}"   ███    ███ ███▄     ▄█ ███    ███    ▄█    ███   ███ "${CL_RED}
-	@echo -e ${CL_RED}"   ████████▀   ▀████████▀  ▀██████▀   ▄████████▀   ▄████▀ "${CL_RED}
-	@echo -e ${CL_RED}"                           A Ground Zero Roms "${CL_RED}
-	@echo -e ${CL_RED}"                                Project      "${CL_RED}
-	@echo -e "Package complete: $(GZOSP_TARGET_PACKAGE)"
+rockos: otapackage
+	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(ROCKOS_TARGET_PACKAGE)
+	$(hide) $(MD5SUM) $(ROCKOS_TARGET_PACKAGE) > $(ROCKOS_TARGET_PACKAGE).md5sum
+        @echo -e ${CL_RED}""${CL_RED}
+        @echo -e ${CL_RED}"************************************************"${CL_RED}
+        @echo -e ${CL_RED}"     ██▀███   ▒█████    ██████  ██▓███          "${CL_RED}
+        @echo -e ${CL_RED}"    ▓██ ▒ ██▒▒██▒  ██▒▒██    ▒ ▓██░  ██▒        "${CL_RED}
+        @echo -e ${CL_RED}"    ▓██ ░▄█ ▒▒██░  ██▒░ ▓██▄   ▓██░ ██▓▒        "${CL_RED}
+        @echo -e ${CL_RED}"    ▒██▀▀█▄  ▒██   ██░  ▒   ██▒▒██▄█▓▒ ▒        "${CL_RED}
+        @echo -e ${CL_RED}"    ░██▓ ▒██▒░ ████▓▒░▒██████▒▒▒██▒ ░  ░        "${CL_RED}
+        @echo -e ${CL_RED}"    ░ ▒▓ ░▒▓░░ ▒░▒░▒░ ▒ ▒▓▒ ▒ ░▒▓▒░ ░  ░        "${CL_RED}
+        @echo -e ${CL_RED}"      ░▒ ░ ▒░  ░ ▒ ▒░ ░ ░▒  ░ ░░▒ ░             "${CL_RED}
+        @echo -e ${CL_RED}"      ░░   ░ ░ ░ ░ ▒  ░  ░  ░  ░░               "${CL_RED}
+        @echo -e ${CL_RED}"       ░         ░ ░        ░                   "${CL_RED}
+        @echo -e ${CL_RED}"************************************************"${CL_RED}
+        @echo -e ${CL_RED}"                    ROCKOS                      "${CL_RED}
+        @echo -e ${CL_RED}"************************************************"${CL_RED}
+        @echo -e ${CL_RED}""${CL_RED}
+	@echo -e "Package complete: $(ROCKOS_TARGET_PACKAGE)"
 
 endif    # build_ota_package
 
